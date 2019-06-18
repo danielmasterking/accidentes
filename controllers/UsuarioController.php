@@ -1321,40 +1321,17 @@ class UsuarioController extends Controller
         $roles      = Yii::$app->session['rol-exito'];
 
         $roles     = Rol::find()->orderBy(['nombre' => SORT_ASC])->all();
-        $distritos = Distrito::find()->orderBy(['nombre' => SORT_ASC])->all();
-        $ciudades  = Ciudad::find()->orderBy(['nombre' => SORT_ASC])->all();
-        $marcas    = Marca::find()->orderBy(['nombre' => SORT_ASC])->all();
-        $zonas     = Zona::find()->orderBy(['nombre' => SORT_ASC])->all();
+        
         $empresas  = Empresa::find()->orderBy(['nombre' => SORT_ASC])->all();
 
         $model = new Usuario();
 
         $primaryConnection = Yii::$app->db;
 
-        $primaryCommand = $primaryConnection->createCommand("DELETE
-                                                             FROM usuario_zona
-                                                             WHERE usuario = :usuario
-                                                             ");
-
-        $secondCommand = $primaryConnection->createCommand("DELETE
-                                                             FROM usuario_distrito
-                                                             WHERE usuario = :usuario
-                                                             ");
-
-        $quintoCommand = $primaryConnection->createCommand("DELETE
-                                                             FROM usuario_marca
-                                                             WHERE usuario = :usuario
-                                                             ");
-
-        $sextoCommand = $primaryConnection->createCommand("DELETE
-                                                             FROM usuario_ciudad
-                                                             WHERE usuario = :usuario
-                                                             ");
-
-        $septimoCommand = $primaryConnection->createCommand("DELETE
-                                                             FROM usuario_dependencia
-                                                             WHERE usuario = :usuario
-                                                             ");
+        $empresaCommand = $primaryConnection->createCommand("SELECT nit
+                                                            FROM  usuario_empresa
+                                                            WHERE usuario = :usuario
+                                                            ");
 
         $octavoCommand = $primaryConnection->createCommand("DELETE
                                                              FROM usuario_empresa
@@ -1374,16 +1351,12 @@ class UsuarioController extends Controller
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
 
             $roles_array     = array_key_exists('roles_array', $array_post) ? $array_post['roles_array'] : array();
-            $zonas_array     = array_key_exists('zonas_array', $array_post) ? $array_post['zonas_array'] : array();
-            $marcas_array    = array_key_exists('marcas_array', $array_post) ? $array_post['marcas_array'] : array();
-            $distritos_array = array_key_exists('distritos_array', $array_post) ? $array_post['distritos_array'] : array();
+            
             $empresas_array  = array_key_exists('empresas_array', $array_post) ? $array_post['empresas_array'] : array();
             $usuario         = $model->getAttribute('usuario');
             $thirdCommand->bindValue(':usuario', $usuario)->execute();
             $tamano_roles     = count($roles_array);
-            $tamano_zonas     = count($zonas_array);
-            $tamano_distritos = count($distritos_array);
-            $tamano_marcas    = count($marcas_array);
+          
             $tamano_empresas  = count($empresas_array);
             $tipo_area        = array_key_exists('tipo-area', $array_post) ? $array_post['tipo-area'] : '';
 
@@ -1409,50 +1382,7 @@ class UsuarioController extends Controller
 
             }
 
-            $index = 0;
-
-            while ($index < $tamano_zonas) {
-
-                /*Modelo principal guardado*/
-                $usuario_zonas_model = new UsuarioZona();
-                /*establecer valores de Atributos del objeto prorroga*/
-                $usuario_zonas_model->setAttribute('usuario', $usuario);
-                $usuario_zonas_model->setAttribute('zona_id', $zonas_array[$index]);
-                $usuario_zonas_model->save();
-
-                $index++;
-
-            }
-
-            $index = 0;
-
-            while ($index < $tamano_distritos) {
-
-                /*Modelo principal guardado*/
-                $usuario_distritos_model = new UsuarioDistrito();
-                /*establecer valores de Atributos del objeto prorroga*/
-                $usuario_distritos_model->setAttribute('usuario', $usuario);
-                $usuario_distritos_model->setAttribute('distrito_id', $distritos_array[$index]);
-                $usuario_distritos_model->save();
-
-                $index++;
-
-            }
-
-            $index = 0;
-
-            while ($index < $tamano_marcas) {
-
-                /*Modelo principal guardado*/
-                $usuario_marcas_model = new UsuarioMarca();
-                /*establecer valores de Atributos del objeto prorroga*/
-                $usuario_marcas_model->setAttribute('usuario', $usuario);
-                $usuario_marcas_model->setAttribute('marca_id', $marcas_array[$index]);
-                $usuario_marcas_model->save();
-
-                $index++;
-
-            }
+           
 
             $index = 0;
 
@@ -1475,10 +1405,7 @@ class UsuarioController extends Controller
             return $this->render('create', [
                 'model'     => $model,
                 'roles'     => $roles,
-                'distritos' => $distritos,
-                'marcas'    => $marcas,
-                'ciudades'  => $ciudades,
-                'zonas'     => $zonas,
+                
                 'empresas'  => $empresas,
 
             ]);
@@ -1498,59 +1425,21 @@ class UsuarioController extends Controller
 
         $model     = $this->findModel($id);
         $roles     = Rol::find()->orderBy(['nombre' => SORT_ASC])->all();
-        $distritos = Distrito::find()->orderBy(['nombre' => SORT_ASC])->all();
-        $ciudades  = Ciudad::find()->orderBy(['nombre' => SORT_ASC])->all();
-        $marcas    = Marca::find()->orderBy(['nombre' => SORT_ASC])->all();
-        $zonas     = Zona::find()->orderBy(['nombre' => SORT_ASC])->all();
+        
         $empresas  = Empresa::find()->orderBy(['nombre' => SORT_ASC])->all();
 
         $primaryConnection = Yii::$app->db;
 
-        $primaryCommand = $primaryConnection->createCommand("DELETE
-                                                             FROM usuario_zona
-                                                             WHERE usuario = :usuario
-                                                             ");
-
-        $zonaCommand = $primaryConnection->createCommand("SELECT zona_id
-                                                            FROM  usuario_zona
-                                                            WHERE usuario = :usuario
-                                                            ");
-
-        $secondCommand = $primaryConnection->createCommand("DELETE
-                                                             FROM usuario_distrito
-                                                             WHERE usuario = :usuario
-                                                             ");
-
-        $distritoCommand = $primaryConnection->createCommand("SELECT distrito_id
-                                                            FROM  usuario_distrito
-                                                            WHERE usuario = :usuario
-                                                            ");
-
-        $quintoCommand = $primaryConnection->createCommand("DELETE
-                                                             FROM usuario_marca
-                                                             WHERE usuario = :usuario
-                                                             ");
-
-        $marcaCommand = $primaryConnection->createCommand("SELECT marca_id
-                                                            FROM  usuario_marca
-                                                            WHERE usuario = :usuario
-                                                            ");
+       
+        
+       
 
         $empresaCommand = $primaryConnection->createCommand("SELECT nit
                                                             FROM  usuario_empresa
                                                             WHERE usuario = :usuario
                                                             ");
 
-        $sextoCommand = $primaryConnection->createCommand("DELETE
-                                                             FROM usuario_ciudad
-                                                             WHERE usuario = :usuario
-                                                             ");
-
-        $septimoCommand = $primaryConnection->createCommand("DELETE
-                                                             FROM usuario_dependencia
-                                                             WHERE usuario = :usuario
-                                                             ");
-
+       
         $octavoCommand = $primaryConnection->createCommand("DELETE
                                                              FROM usuario_empresa
                                                              WHERE usuario = :usuario
@@ -1571,9 +1460,7 @@ class UsuarioController extends Controller
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
 
             $roles_array     = array_key_exists('roles_array', $array_post) ? $array_post['roles_array'] : array();
-            $zonas_array     = array_key_exists('zonas_array', $array_post) ? $array_post['zonas_array'] : array();
-            $marcas_array    = array_key_exists('marcas_array', $array_post) ? $array_post['marcas_array'] : array();
-            $distritos_array = array_key_exists('distritos_array', $array_post) ? $array_post['distritos_array'] : array();
+            
             $empresas_array  = array_key_exists('empresas_array', $array_post) ? $array_post['empresas_array'] : array();
             $usuario         = $model->getAttribute('usuario');
             $thirdCommand->bindValue(':usuario', $usuario)->execute();
@@ -1582,9 +1469,7 @@ class UsuarioController extends Controller
             $quintoCommand->bindValue(':usuario', $usuario)->execute();
             $octavoCommand->bindValue(':usuario', $usuario)->execute();
             $tamano_roles     = count($roles_array);
-            $tamano_zonas     = count($zonas_array);
-            $tamano_distritos = count($distritos_array);
-            $tamano_marcas    = count($marcas_array);
+           
             $tamano_empresas  = count($empresas_array);
             $tipo_area        = array_key_exists('tipo-area', $array_post) ? $array_post['tipo-area'] : '';
 
@@ -1610,51 +1495,8 @@ class UsuarioController extends Controller
 
             }
 
-            $index = 0;
-
-            while ($index < $tamano_zonas) {
-
-                /*Modelo principal guardado*/
-                $usuario_zonas_model = new UsuarioZona();
-                /*establecer valores de Atributos del objeto prorroga*/
-                $usuario_zonas_model->setAttribute('usuario', $usuario);
-                $usuario_zonas_model->setAttribute('zona_id', $zonas_array[$index]);
-                $usuario_zonas_model->save();
-
-                $index++;
-
-            }
-
-            $index = 0;
-
-            while ($index < $tamano_distritos) {
-
-                /*Modelo principal guardado*/
-                $usuario_distritos_model = new UsuarioDistrito();
-                /*establecer valores de Atributos del objeto prorroga*/
-                $usuario_distritos_model->setAttribute('usuario', $usuario);
-                $usuario_distritos_model->setAttribute('distrito_id', $distritos_array[$index]);
-                $usuario_distritos_model->save();
-
-                $index++;
-
-            }
-
-            $index = 0;
-
-            while ($index < $tamano_marcas) {
-
-                /*Modelo principal guardado*/
-                $usuario_marcas_model = new UsuarioMarca();
-                /*establecer valores de Atributos del objeto prorroga*/
-                $usuario_marcas_model->setAttribute('usuario', $usuario);
-                $usuario_marcas_model->setAttribute('marca_id', $marcas_array[$index]);
-                $usuario_marcas_model->save();
-
-                $index++;
-
-            }
-
+          
+         
             $index = 0;
 
             while ($index < $tamano_empresas) {
@@ -1674,21 +1516,13 @@ class UsuarioController extends Controller
         } else {
 
             $roles_actuales     = $fourthCommand->bindValue(':usuario', $usuario)->queryAll();
-            $zonas_actuales     = $zonaCommand->bindValue(':usuario', $usuario)->queryAll();
-            $distritos_actuales = $distritoCommand->bindValue(':usuario', $usuario)->queryAll();
-            $marcas_actuales    = $marcaCommand->bindValue(':usuario', $usuario)->queryAll();
+            
             $empresas_actuales  = $empresaCommand->bindValue(':usuario', $usuario)->queryAll();
 
             return $this->render('update', [
                 'model'              => $model,
                 'roles'              => $roles,
                 'roles_actuales'     => $roles_actuales,
-                'zonas'              => $zonas,
-                'distritos'          => $distritos,
-                'marcas'             => $marcas,
-                'marcas_actuales'    => $marcas_actuales,
-                'zonas_actuales'     => $zonas_actuales,
-                'distritos_actuales' => $distritos_actuales,
                 'empresas_actuales'  => $empresas_actuales,
                 'empresas'           => $empresas,
             ]);

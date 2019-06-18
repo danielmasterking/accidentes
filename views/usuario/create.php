@@ -13,9 +13,6 @@ $this->title = 'Crear Usuario';
     <?= $this->render('_form', [
                 'model' => $model,
 				'roles' => $roles,
-				'distritos' => $distritos,
-				'marcas' => $marcas,
-				'ciudades' => $ciudades,
-				'zonas' => $zonas,
+				
 				'empresas' => $empresas,
     ]) ?>

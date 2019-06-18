@@ -29,8 +29,8 @@ class DetalleGestionRiesgo extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id_consulta', 'id_respuesta'], 'integer'],
-            [['observaciones', 'planes_de_accion'], 'string'],
+            [['id_consulta'], 'integer'],
+            [['observaciones'], 'string'],
         ];
     }
 
@@ -42,9 +42,9 @@ class DetalleGestionRiesgo extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'id_consulta' => 'Id Consulta',
-            'id_respuesta' => 'Id Respuesta',
+            
             'observaciones' => 'Observaciones',
-            'planes_de_accion' => 'Planes De Accion',
+            
         ];
     }
 }

@@ -27,6 +27,7 @@ class RespuestasGestion extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+            [['descripcion'], 'required'],
             [['descripcion'], 'string', 'max' => 50],
             [['estado'], 'string', 'max' => 1],
         ];

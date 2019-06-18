@@ -13,6 +13,12 @@ $config = [
         /*'CheckIfLoggedIn'=>[
         'class'=>'app\components\CheckIfLoggedIn'
         ],*/
+        'view' => [
+            'theme' => [
+                'pathMap' => ['@app/views' => '@app/themes/Admin1'],
+                'baseUrl' => '@web/../themes/Admin1',
+            ],
+        ],
         'MyGlobalClass'=>[
             'class'=>'app\components\MyGlobalClass'
          ],

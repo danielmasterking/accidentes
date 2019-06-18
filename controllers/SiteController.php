@@ -8,7 +8,6 @@ use yii\web\Controller;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
-use app\models\CentroCosto;
 use app\models\Usuario;
 use app\models\RolUsuario;
 use app\models\PermisoRol;
@@ -106,34 +105,15 @@ class SiteController extends Controller
          }
     }
 	
-	public function actionInicio(){
-	    $usuario = Usuario::findOne(Yii::$app->session['usuario-exito']);
-		$zonasUsuario = null;
-		$marcasUsuario = null;
-		$distritosUsuario = null;
-		
-		if($usuario != null){
-		  
-          $zonasUsuario = $usuario->zonas;		
-          $marcasUsuario = $usuario->marcas;
-          $distritosUsuario = $usuario->distritos;		  
-			
-		}
-		
-		//Establecer Layout
-		
-		$puestos = CentroCosto::find()->where(['estado' => 'A'])->all();
-		return $this->render('inicio',
-		
-		 ['puestos' => $puestos,
-          'zonasUsuario' => $zonasUsuario,
-		  'marcasUsuario' => $marcasUsuario,
-		  'distritosUsuario' => $distritosUsuario,]);
-		
-	}
-	
+	public function actionHome(){
+        return $this->render('home',[
+
+                ]);
+    }
+
     public function actionLogin()
     {		
+        $this->layout='_login';
 		$model = new LoginForm();
         
 		if ($model->load(\Yii::$app->request->post()) && $model->login()) {
@@ -164,11 +144,9 @@ class SiteController extends Controller
             if( isset(Yii::$app->session['permisos-exito']) ){
                 $permisos = Yii::$app->session['permisos-exito'];
             }
-            if(in_array("dependencia-ver", $permisos)){
-               $this->redirect(['centro-costo/index']);
-            }else{
-                $this->redirect(['site/about']);
-            }
+           
+            $this->redirect(['gestionriesgo/index']);
+        
 		}else{
             return $this->render('login', [
                 'model' => $model,

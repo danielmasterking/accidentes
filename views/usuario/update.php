@@ -14,12 +14,6 @@ $this->title = 'Actualizar Usuario: '.$model->usuario;
                 'model' => $model,
 				'roles' => $roles,
 				'roles_actuales' => $roles_actuales,
-				'zonas' => $zonas,
-				'distritos' => $distritos,
-				'marcas' => $marcas,
-				'marcas_actuales' => $marcas_actuales,
-				'zonas_actuales' => $zonas_actuales,
-				'distritos_actuales' => $distritos_actuales,
 				'empresas_actuales' => $empresas_actuales,
 				'empresas' => $empresas,
     ]) ?>

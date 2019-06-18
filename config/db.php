@@ -2,7 +2,7 @@
 
 return [
     'class' => 'yii\db\Connection',
-    'dsn' => 'mysql:host=localhost;dbname=cvsccomc_sgs_exito',
+    'dsn' => 'mysql:host=localhost;dbname=accidentes',
     // 'username' => 'cvsccomc',
     // 'password' => 'Alfabmay95**',
     'username' => 'root',

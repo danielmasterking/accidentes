@@ -8,8 +8,10 @@ use Yii;
  * This is the model class for table "gestion_riesgo".
  *
  * @property integer $id
- * @property integer $id_centro_costo
+ * @property string $id_centro_costo
  * @property string $fecha
+ * @property string $fecha_visita
+ * @property string $observacion
  */
 class GestionRiesgo extends \yii\db\ActiveRecord
 {
@@ -27,8 +29,7 @@ class GestionRiesgo extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id_centro_costo'], 'integer'],
-            [['fecha'], 'safe'],
+            [['cedula','nombre','edad','sexo','cargo','fecha_accidente','dias_incapacidad'], 'required'],
         ];
     }
 
@@ -38,9 +39,17 @@ class GestionRiesgo extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'id_centro_costo' => 'Id Centro Costo',
-            'fecha' => 'Fecha',
+            'cedula' => 'Cedula',
+            'nombre' => 'Nombre',
+            'edad' => 'Edad',
+            'sexo'=>'Sexo',
+            'cargo'=>'Cargo',
+            'fecha_accidente'=>'Fecha Accidente',
+            'dias_incapacidad'=>'Dias de incapacidad'
+            
         ];
     }
+
+
+    
 }

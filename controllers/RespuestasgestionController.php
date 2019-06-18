@@ -65,11 +65,16 @@ class RespuestasgestionController extends Controller
     {
         $model = new RespuestasGestion();
 
+        $consulta=$model->find()->all();
+
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            Yii::$app->session->setFlash('success','Creado correctamente');
+            return $this->redirect(['create']);
         } else {
             return $this->render('create', [
                 'model' => $model,
+                'respuestas'=>'active',
+                'consulta'=>$consulta
             ]);
         }
     }
@@ -85,7 +90,8 @@ class RespuestasgestionController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            Yii::$app->session->setFlash('success','Actualizado correctamente');
+            return $this->redirect(['create']);
         } else {
             return $this->render('update', [
                 'model' => $model,
@@ -103,7 +109,8 @@ class RespuestasgestionController extends Controller
     {
         $this->findModel($id)->delete();
 
-        return $this->redirect(['index']);
+        Yii::$app->session->setFlash('success','Eliminado correctamente');
+        return $this->redirect(['create']);
     }
 
     /**

@@ -5,6 +5,7 @@ namespace app\controllers;
 use Yii;
 use app\models\ConsultasGestion;
 use app\models\ConsultasGestionSearch;
+use app\models\SelectConsultaGestion;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -64,12 +65,28 @@ class ConsultasgestionController extends Controller
     public function actionCreate()
     {
         $model = new ConsultasGestion();
+        $consulta=$model->find()->orderby('orden ASC')->all();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        	$model->setAttribute('orden',$_POST['ConsultasGestion']['orden']);
+            //echo $model->tipo_campo;
+        	$model->save();
+            if($model->tipo_campo=='select'){
+                $options=$_POST['options'];
+                foreach ($options as  $value) {
+                    $model2=new SelectConsultaGestion;
+                    $model2->setAttribute('valor',$value);
+                    $model2->setAttribute('id_consulta',$model->id);
+                    $model2->save();
+                }
+            }
+            Yii::$app->session->setFlash('success','Creado correctamente');
+            return $this->redirect(['create']);
         } else {
             return $this->render('create', [
                 'model' => $model,
+                'preguntas'=>'active',
+                'consulta'=>$consulta
             ]);
         }
     }
@@ -85,10 +102,26 @@ class ConsultasgestionController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        	$model->setAttribute('orden',$_POST['ConsultasGestion']['orden']);
+        	$model->save();
+
+            if($model->tipo_campo=='select'){
+                SelectConsultaGestion::deleteAll('id_consulta = :consultad_id ', [':consultad_id' => $model->id]);
+                $options=$_POST['options'];
+                foreach ($options as  $value) {
+                    $model2=new SelectConsultaGestion;
+                    $model2->setAttribute('valor',$value);
+                    $model2->setAttribute('id_consulta',$model->id);
+                    $model2->save();
+                }
+            }
+            Yii::$app->session->setFlash('success','Actualizado correctamente');
+            return $this->redirect(['create']);
         } else {
             return $this->render('update', [
                 'model' => $model,
+                'preguntas'=>'active',
+                'actualizar'=>true
             ]);
         }
     }
@@ -102,8 +135,8 @@ class ConsultasgestionController extends Controller
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
-
-        return $this->redirect(['index']);
+        Yii::$app->session->setFlash('success','Eliminado correctamente');
+        return $this->redirect(['create']);
     }
 
     /**
@@ -120,5 +153,12 @@ class ConsultasgestionController extends Controller
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
+    }
+
+    public function actionCambiarEstado($id,$estado){
+        $model = $this->findModel($id);
+        $model->setAttribute('estado',$estado);
+        $model->save();
+        return $this->redirect(['create']);
     }
 }

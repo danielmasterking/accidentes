@@ -7,89 +7,43 @@ use \kartik\form\ActiveForm;
 /* @var $this yii\web\View */
 /* @var $form yii\bootstrap\ActiveForm */
 /* @var $model app\models\LoginForm */
-
+$this->title='Login'
 ?>
-<div class="container">
- <div id="loginbox" style="margin-top:5px;padding-top:5px;" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">                    
-   <div class="panel panel-info" style="border-color:##ffff34;">
-                    <div class="panel-heading" style="background-color: #ffff34;">
-                        <div class="panel-title">Ingreso al Sistema</div>
-                        <div style="float:right; font-size: 80%; position: relative; top:-10px"></div>
-                    </div>
-                    <div style="padding-top:30px" class="panel-body" >
-                      <div style="display:none" id="login-alert" class="alert alert-danger col-sm-12"></div>
-                      <?php $form = ActiveForm::begin([
-                                                       'id' => 'login-form',
-                                                       'options' => ['class' => 'form-horizontal','role'=>'form'],
-                                                   ]); ?>
-												   
-						 <?php if(isset($_GET['flash'])): ?>
-                               
-							   <p class="alert alert-danger" style="text-align: center;"><?= $_GET['flash'] ?></p>
-							   
-                         <?php endif;?>						 
 
-                         <div style="margin-bottom: 10px;width:100%;" class="input-group">
-                                        
-                                        <?php
+<div class="login-box-body" style="background-color:rgba(0,31,50,0.6) !important;border: 2px solid !important;">
+    <center>
+    	<img src="https://previews.123rf.com/images/stodolskaya/stodolskaya1511/stodolskaya151100027/49219342-user-login-or-access-authentication-icon.jpg" alt="..." class="img-circle img-responsive" style="height: 75px;width: 70px;">
+    </center><br>
 
-                                        echo $form->field($model, 'username', [
-                                             'addon' => ['prepend' => ['content'=>'<i class="glyphicon glyphicon-user"></i>']]
-                                        ])->label(false);
+    <?php $form = ActiveForm::begin([
+           'id' => 'login-form',
+           'options' => ['class' => 'form-horizontal','role'=>'form'],
+       ]); ?>
+      <div class="form-group has-feedback" >
+      	<input id="loginform-username" type="text" class="form-control" placeholder="Usuario" name="LoginForm[username]" required="">
+        <?php 
+        	//echo $form->field($model, 'username')->textInput(['class'=>'form-control','placeholder'=>'Usuario'])->label(false);
+        ?>
+        <span class="glyphicon glyphicon-user form-control-feedback"></span>
+      </div>
+      <div class="form-group has-feedback">
+      	<input id="loginform-password" type="password" class="form-control" placeholder="Contraseña" name="LoginForm[password]" required="">
+        <?php  
+        	//echo $form->field($model, 'password')->passwordInput(['class'=>'form-control','placeholder'=>'Usuario'])->label(false);
+        ?>
+        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+      </div>
+      <div class="row">
+        
+        <!-- /.col -->
+        <div class="col-xs-4">
 
-                                        ?>
-                                         
-                                        
-
-                                    </div>
-
-                                       <div style="margin-bottom: 5px;width:100%;" class="input-group">
-                                        
-                                        <?php
-
-                                        echo $form->field($model, 'password', [
-                                             'addon' => ['prepend' => ['content'=>'<i class="glyphicon glyphicon-lock"></i>']]
-                                        ])->passwordInput()->label(false);
-
-                                        ?>
-                                         
-                                        
-
-                                    </div>
-
-                                    <div class="input-group hidden">
-                                      <div class="checkbox">
-                                        <label>
-                                         
-                                            <?= $form->field($model, 'rememberMe', [
-                                                             'template' => "<div class=\"col-lg-offset-1 col-lg-3\">{input}</div>\n<div class=\"col-lg-8\">{error}</div>",
-                                             ])->checkbox() ?>
-                                        </label>
-                                      </div>
-                                    </div>
-
-                                <div style="margin-top:5px" class="form-group">
-                                    <!-- Button -->
-
-                                    <div class="col-sm-12 controls">
-
-                                      <?= Html::submitButton('Ingresar', ['class' => 'btn btn-primary btn-lg', 'name' => 'login-button']) ?>
-
-                                    </div>
-                                </div>
-
-
-
-                       <?php ActiveForm::end(); ?>
-
-
-                    </div>
-   </div>
- </div>
-
-
+          <?= Html::submitButton('<i class="glyphicon glyphicon-log-in"></i> Ingresar', ['class' => 'btn btn-danger btn-block btn-flat', 'name' => 'login-button','style'=>'background-color: #99242c;']) ?>
+        </div>
+        <!-- /.col -->
+      </div>
+    <?php ActiveForm::end(); ?>
 
     
-    
-    
-</div>
+
+  </div>
