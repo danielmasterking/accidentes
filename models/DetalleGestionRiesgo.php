@@ -29,7 +29,7 @@ class DetalleGestionRiesgo extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id_consulta'], 'integer'],
+            [['id_consulta','id_gestion'], 'integer'],
             [['observaciones'], 'string'],
         ];
     }
@@ -42,9 +42,31 @@ class DetalleGestionRiesgo extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'id_consulta' => 'Id Consulta',
-            
             'observaciones' => 'Observaciones',
             
         ];
+    }
+
+
+    public function getConsulta()
+    {
+        return $this->hasOne(ConsultasGestion::className(), ['id' => 'id_consulta']);
+    }
+
+    /*public function getRespuesta()
+    {
+        return $this->hasOne(RespuestasGestion::className(), ['id' => 'id_respuesta']);
+    }*/
+
+    public function getGestion()
+    {
+        return $this->hasOne(GestionRiesgo::className(), ['id' => 'id_gestion']);
+    }
+
+    public static function detalle_gestion($id_gestion,$id_tema){
+
+        $query=DetalleGestionRiesgo::find()->where(' id_gestion='.$id_gestion.' AND id_consulta='.$id_tema.' ')->one();
+
+        return $query; 
     }
 }

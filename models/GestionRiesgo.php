@@ -29,7 +29,7 @@ class GestionRiesgo extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['cedula','nombre','edad','sexo','cargo','fecha_accidente','dias_incapacidad'], 'required'],
+            [['cedula','nombre','edad','sexo','cargo','fecha_accidente','dias_incapacidad','salario'], 'required'],
         ];
     }
 
@@ -45,7 +45,8 @@ class GestionRiesgo extends \yii\db\ActiveRecord
             'sexo'=>'Sexo',
             'cargo'=>'Cargo',
             'fecha_accidente'=>'Fecha Accidente',
-            'dias_incapacidad'=>'Dias de incapacidad'
+            'dias_incapacidad'=>'Dias de incapacidad',
+            'salario'=>'$ Salario'
             
         ];
     }

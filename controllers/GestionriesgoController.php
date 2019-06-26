@@ -229,7 +229,7 @@ class GestionriesgoController extends Controller
 
     public function actionImprimir($id){
 
-        $consulta=DetalleGestionRiesgo::find()->where('id_gestion ="'.$id.'" ')->all();
+        $consulta=DetalleGestionRiesgo::find()->where('id_gestion='.$id)->all();
         $model = $this->findModel($id);
         $content = $this->renderPartial('imprimir', array(
             'consulta' => $consulta,
@@ -266,10 +266,10 @@ class GestionriesgoController extends Controller
         $pdf = Yii::$app->pdf; // or new Pdf();
         $mpdf = $pdf->api; // fetches mpdf api
         //$mpdf->cssInline('table, td, th {border: 1px solid black;} .kv-heading-1{font-size:18px}');
-        $mpdf->SetHeader('Gestion-'.$model->dependencia->nombre." - ".date('Y-m-d')); // call methods or set any properties
+        $mpdf->SetHeader('Accidentado-'.$model->nombre.'-'.$model->fecha_accidente); // call methods or set any properties
         $mpdf->SetFooter('{PAGENO}');
         $mpdf->WriteHtml($content); // call mpdf write html
-        echo $mpdf->Output('Gestion'.date('Y-m-d').'.pdf', 'D');
+        echo $mpdf->Output('Accidentado-'.$model->nombre.'-'.date('Y-m-d').'.pdf', 'D');
     }
 
     public function actionInformeNovedades(){

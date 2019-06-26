@@ -66,7 +66,7 @@ $orden = 1;
     </div>
 
     <div class="row">
-    	<div class="col-md-6">
+    	<div class="col-md-4">
     		<?= $form->field($model, 'fecha_accidente')->textInput([
     			'type'=>'date'
 			
@@ -76,13 +76,21 @@ $orden = 1;
 
     	
 
-		<div class="col-md-6">
+		<div class="col-md-4">
 			<?= $form->field($model, 'dias_incapacidad')->textInput([
     			
 				'type'=>'number'
 
     		]) ?>
 		</div>
+
+        <div class="col-md-4">
+            <?= $form->field($model, 'salario')->textInput([
+                
+                'type'=>'number'
+
+            ]) ?>
+        </div>
     </div>
 
     

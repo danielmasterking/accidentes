@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\GestionRiesgoSearch */
@@ -32,7 +33,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <thead>
             <tr>
                 <th></th>
-                <th>Id</th>
+                <th>#</th>
                 <th>Nombre</th>
                 <th>Cedula</th>
                 <th>Edad</th>
@@ -44,12 +45,12 @@ $this->params['breadcrumbs'][] = $this->title;
             </tr>
         </thead>
         <tbody>
-            <?php foreach($model as $row): ?>
+            <?php $num=1; foreach($model as $row): ?>
                 <tr>
                     <td>
-                        <a href="" class="btn btn-info btn-xs"><i class="fa fa-eye"></i></a>
+                        <a href="<?php echo Url::toRoute('gestionriesgo/view?id='.$row->id)?>" class="btn btn-info btn-xs"><i class="fa fa-eye"></i></a>
                     </td>
-                    <td><?= $row->id?></td>
+                    <td><?= $num?></td>
                     <td><?= $row->nombre?></td>
                     <td><?= $row->cedula?></td>
                     <td><?= $row->edad?></td>
@@ -59,7 +60,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     <td><?= $row->dias_incapacidad?></td>
                     <td><?= $row->usuario?></td>
                 </tr>
-            <?php endforeach; ?>
+            <?php $num++;endforeach; ?>
         </tbody>
     </table>
     
