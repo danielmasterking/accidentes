@@ -57,7 +57,7 @@
 <?php $this->beginBody() ?>
 <div class="login-box">
   <div class="login-logo">
-    <a href="#" style="color: #99242c;"><b>SST</b></a>
+    <a href="#" style="color: #99242c;"><b>Seguridad y salud en el trabajo</b></a>
   </div>
   <!-- /.login-logo -->
   <?php echo $content ?>
