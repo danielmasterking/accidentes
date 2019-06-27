@@ -28,3 +28,7 @@ phpunit.phar
 
 #conexion a base de datos
 /config/db.php
+
+#log de errores
+/web/error_log
+
